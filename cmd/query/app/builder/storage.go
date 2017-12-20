@@ -51,6 +51,7 @@ func NewStorageBuilder(storageType string, dependencyDataFreq time.Duration, opt
 	}
 
 	// TODO lots of repeated code + if logic, clean up below
+	// TODO doesn't look like metrics factory is namespaced by storage type
 	var err error
 	if storageType == flags.CassandraStorageType {
 		if options.CassandraSessionBuilder == nil {

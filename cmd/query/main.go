@@ -46,8 +46,8 @@ func main() {
 	var serverChannel = make(chan os.Signal, 0)
 	signal.Notify(serverChannel, os.Interrupt, syscall.SIGTERM)
 
-	casOptions := casFlags.NewOptions("cassandra", "cassandra.archive")
-	esOptions := esFlags.NewOptions("es", "es.archive")
+	casOptions := casFlags.NewOptions("cassandra", "cassandra-archive")
+	esOptions := esFlags.NewOptions("es", "es-archive")
 	v := viper.New()
 
 	var command = &cobra.Command{
@@ -105,12 +105,32 @@ func main() {
 				logger.Fatal("Failed to init storage builder", zap.Error(err))
 			}
 
+			apiHandlerOptions := []app.HandlerOption{
+				app.HandlerOptions.Prefix(queryOpts.Prefix),
+				app.HandlerOptions.Logger(logger),
+				app.HandlerOptions.Tracer(tracer),
+			}
+			if casArchive := casOptions.Get("cassandra-archive"); casArchive != nil {
+				storageBuild, err := builder.NewStorageBuilder(
+					sFlags.SpanStorage.Type,
+					sFlags.DependencyStorage.DataFrequency,
+					basicB.Options.LoggerOption(logger),
+					basicB.Options.MetricsFactoryOption(metricsFactory.Namespace("cassandra-archive", nil)),
+					basicB.Options.CassandraSessionOption(casArchive),
+				)
+				if err != nil {
+					logger.Fatal("Failed to init storage builder", zap.Error(err))
+				}
+				apiHandlerOptions = append(
+					apiHandlerOptions,
+					app.HandlerOptions.ArchiveSpanReader(storageBuild.SpanReader),
+					// TODO span writer not supported, damn!
+				)
+			}
 			apiHandler := app.NewAPIHandler(
 				storageBuild.SpanReader,
 				storageBuild.DependencyReader,
-				app.HandlerOptions.Prefix(queryOpts.Prefix),
-				app.HandlerOptions.Logger(logger),
-				app.HandlerOptions.Tracer(tracer))
+				apiHandlerOptions...)
 			r := mux.NewRouter()
 			apiHandler.RegisterRoutes(r)
 			registerStaticHandler(r, logger, queryOpts)
