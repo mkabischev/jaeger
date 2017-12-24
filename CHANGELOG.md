@@ -10,12 +10,14 @@ Changes by Version
 
 - Add CA certificates to collector/query images (#485)
 - Parse zipkin v2 high trace id (#596)
+- Add support for retrieving unadjusted/raw traces (#615)
 
 ##### Fixes
 
 - Skip nil and zero length hits in ElasticSearch storage (#601)
 - Make Cassandra service_name_index inserts idempotent (#587)
 - Align atomic int64 to word boundary to fix SIGSEGV (#592)
+- Add adjuster that removes bad span references (#614)
 
 #### UI Changes
 
