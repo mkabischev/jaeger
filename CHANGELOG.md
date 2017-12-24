@@ -26,6 +26,7 @@ Changes by Version
 - Change tag search input syntax to logfmt (https://github.com/jaegertracing/jaeger-ui/issues/145)
 - Make threshold for enabling DAG view configurable (https://github.com/jaegertracing/jaeger-ui/issues/130)
 - Show better error messages for failed API calls (https://github.com/jaegertracing/jaeger-ui/issues/127)
+- Add View Option for raw/unadjusted trace (https://github.com/jaegertracing/jaeger-ui/issues/153)
 
 ##### Fixes
 
@@ -34,6 +35,7 @@ Changes by Version
 - Fix endless trace HTTP requests (https://github.com/jaegertracing/jaeger-ui/issues/128)
 - Fix JSON view when running in dev mode (https://github.com/jaegertracing/jaeger-ui/issues/139)
 - Fix trace name resolution (https://github.com/jaegertracing/jaeger-ui/pull/134)
+
 
 1.0.0 (2017-12-04)
 ------------------
