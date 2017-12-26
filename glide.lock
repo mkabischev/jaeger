@@ -1,5 +1,5 @@
-hash: c152996d24dff5978cbfe5aa65739995f12f824e62510b5b66372c7d2e7e6f18
-updated: 2017-11-27T15:48:19.270604282-05:00
+hash: e5952cb87f9cace89ca8e65cbfdd23ffe4dd64820134cc1cafa8d957cab1618e
+updated: 2017-12-26T16:24:53.992413628+03:00
 imports:
 - name: github.com/apache/thrift
   version: 53dd39833a08ce33582e5ff31fa18bb4735d6731
@@ -77,6 +77,8 @@ imports:
   version: 392c28fe23e1c45ddba891b0320b3b5df220beea
 - name: github.com/hailocab/go-hostpool
   version: e80d13ce29ede4452c43dea11e79b9bc8a15b478
+- name: github.com/hashicorp/go-cleanhttp
+  version: 3573b8b52aa7b37b9358d966a898feb387f62437
 - name: github.com/hashicorp/hcl
   version: 80e628d796135357b3d2e33a985c666b9f35eee1
   subpackages:
@@ -167,7 +169,7 @@ imports:
 - name: github.com/stretchr/objx
   version: 1a9d0bb9f541897e62256577b352fdbc1fb4fd94
 - name: github.com/stretchr/testify
-  version: 2aa2c176b9dab406a6970f6a55f513e8a8c8b18f
+  version: 890a5c3458b43e6104ff5da8dfa139d013d77544
   subpackages:
   - assert
   - mock
@@ -228,7 +230,7 @@ imports:
   - zapcore
   - zaptest
 - name: golang.org/x/net
-  version: a337091b0525af65de94df2eb7e98bd9962dcbe2
+  version: a04bdaca5b32abe1c069418fb7088ae607de5bd0
   subpackages:
   - context
   - context/ctxhttp

@@ -15,7 +15,10 @@
 package config
 
 import (
+	"net/http"
 	"time"
+
+	"github.com/hashicorp/go-cleanhttp"
 
 	"github.com/pkg/errors"
 	"gopkg.in/olivere/elastic.v5"
@@ -93,9 +96,19 @@ func (c *Configuration) GetMaxSpanAge() time.Duration {
 
 // GetConfigs wraps the configs to feed to the ElasticSearch client init
 func (c *Configuration) GetConfigs() []elastic.ClientOptionFunc {
-	options := make([]elastic.ClientOptionFunc, 3)
-	options[0] = elastic.SetURL(c.Servers...)
-	options[1] = elastic.SetBasicAuth(c.Username, c.Password)
-	options[2] = elastic.SetSniff(c.Sniffer)
+	transport := cleanhttp.DefaultPooledTransport()
+	transport.MaxIdleConnsPerHost = 300
+	transport.MaxIdleConns = 300
+
+	client := &http.Client{
+		Transport: transport,
+	}
+
+	options := []elastic.ClientOptionFunc{
+		elastic.SetURL(c.Servers...),
+		elastic.SetBasicAuth(c.Username, c.Password),
+		elastic.SetSniff(c.Sniffer),
+		elastic.SetHttpClient(client),
+	}
 	return options
 }
