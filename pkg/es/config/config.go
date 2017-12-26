@@ -19,7 +19,6 @@ import (
 	"time"
 
 	"github.com/hashicorp/go-cleanhttp"
-
 	"github.com/pkg/errors"
 	"gopkg.in/olivere/elastic.v5"
 
