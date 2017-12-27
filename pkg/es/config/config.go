@@ -15,6 +15,7 @@
 package config
 
 import (
+	"net"
 	"net/http"
 	"time"
 
@@ -96,7 +97,12 @@ func (c *Configuration) GetMaxSpanAge() time.Duration {
 // GetConfigs wraps the configs to feed to the ElasticSearch client init
 func (c *Configuration) GetConfigs() []elastic.ClientOptionFunc {
 	transport := cleanhttp.DefaultPooledTransport()
-	transport.MaxIdleConnsPerHost = 300
+	transport.DialContext = (&net.Dialer{
+		Timeout:   30 * time.Second,
+		KeepAlive: 300 * time.Second,
+	}).DialContext
+
+	transport.MaxIdleConnsPerHost = 900
 	transport.MaxIdleConns = 300
 
 	client := &http.Client{
